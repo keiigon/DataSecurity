@@ -5,73 +5,25 @@ public class Transposition {
     public static char   sortedKey[];
     public static int    sortedKeyPos[];
     
-    public Transposition()
-    {
-        selectedKey = "megabuck";
-        sortedKeyPos = new int[selectedKey.length()];
-        sortedKey = selectedKey.toCharArray();
-    }
-    
     public Transposition(String myKey)
     {
         selectedKey = myKey;
-        sortedKeyPos = new int[selectedKey.length()];
-        sortedKey = selectedKey.toCharArray();
-    }
-    
-    public static void doProcessOnKey()
-    {
-        // Find position of each character in selected key and arrange it on
-        // alphabetical order
-        int min, i, j;
-        char orginalKey[] = selectedKey.toCharArray();
-        char temp;
-        // First Sort the array of selected key
-        for (i = 0; i < selectedKey.length(); i++)
-        {
-            min = i;
-            for (j = i; j < selectedKey.length(); j++)
-            {
-                if (sortedKey[min] > sortedKey[j])
-                {
-                    min = j;
-                }
-            }
-            if (min != i)
-            {
-                temp = sortedKey[i];
-                sortedKey[i] = sortedKey[min];
-                sortedKey[min] = temp;
-            }
-        }
-        // Fill the position of array according to alphabetical order
-        for (i = 0; i < selectedKey.length(); i++)
-        {
-            for (j = 0; j < selectedKey.length(); j++)
-            {
-                if (orginalKey[i] == sortedKey[j])
-                    sortedKeyPos[i] = j;
-            }
-        }
     }
     
     // to encrypt the targeted string
     public static String doEncryption(String plainText)
     {
-        int min, i, j;
+        int i, j;
+        
         char orginalKey[] = selectedKey.toCharArray();
-        char temp;
-        doProcessOnKey();
-        // Generate encrypted message by doing encryption using Transpotion
-        // Cipher
         int row = plainText.length() / selectedKey.length();
         int extrabit = plainText.length() % selectedKey.length();
         int exrow = (extrabit == 0) ? 0 : 1;
-        int rowtemp = -1, coltemp = -1;
+        int coltemp = -1;
         int totallen = (row + exrow) * selectedKey.length();
         char pmat[][] = new char[(row + exrow)][(selectedKey.length())];
         char encry[] = new char[totallen];
-        int tempcnt = -1;
+
         row = 0;
         for (i = 0; i < totallen; i++)
         {
@@ -91,11 +43,11 @@ public class Transposition {
             }
         }
         int len = -1, k;
-        for (i = 0; i < selectedKey.length(); i++)
+        for (i = 1; i <= selectedKey.length(); i++)
         {
             for (k = 0; k < selectedKey.length(); k++)
             {
-                if (i == sortedKeyPos[k])
+                if (i == Character.getNumericValue(orginalKey[k]))
                 {
                     break;
                 }
@@ -117,16 +69,15 @@ public class Transposition {
         char key[] = selectedKey.toCharArray();
         char encry[] = s.toCharArray();
         char temp;
-        doProcessOnKey();
         // Now generating plain message
         int row = s.length() / selectedKey.length();
         char pmat[][] = new char[row][(selectedKey.length())];
         int tempcnt = -1;
-        for (i = 0; i < selectedKey.length(); i++)
+        for (i = 1; i <= selectedKey.length(); i++)
         {
             for (k = 0; k < selectedKey.length(); k++)
             {
-                if (i == sortedKeyPos[k])
+                if (i == Character.getNumericValue(key[k]))
                 {
                     break;
                 }
