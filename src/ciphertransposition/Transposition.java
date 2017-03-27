@@ -1,28 +1,22 @@
 package ciphertransposition;
 
 public class Transposition {
-    public static String selectedKey;
-    public static char   sortedKey[];
-    public static int    sortedKeyPos[];
-    
-    public Transposition(String myKey)
-    {
-        selectedKey = myKey;
-    }
-    
-    // to encrypt the targeted string
-    public static String doEncryption(String plainText)
+    public static String Key;
+    public static String PlainText;
+
+    public static String encryption()
     {
         int i, j;
+        String plainText = PlainText;
         
-        char orginalKey[] = selectedKey.toCharArray();
-        int row = plainText.length() / selectedKey.length();
-        int extrabit = plainText.length() % selectedKey.length();
+        char keyArray[] = Key.toCharArray();
+        int row = plainText.length() / Key.length();
+        int extrabit = plainText.length() % Key.length();
         int exrow = (extrabit == 0) ? 0 : 1;
         int coltemp = -1;
-        int totallen = (row + exrow) * selectedKey.length();
-        char pmat[][] = new char[(row + exrow)][(selectedKey.length())];
-        char encry[] = new char[totallen];
+        int totallen = (row + exrow) * Key.length();
+        char plainTextMat[][] = new char[(row + exrow)][(Key.length())];
+        char cipherArray[] = new char[totallen];
 
         row = 0;
         for (i = 0; i < totallen; i++)
@@ -30,24 +24,24 @@ public class Transposition {
             coltemp++;
             if (i < plainText.length())
             {
-                if (coltemp == (selectedKey.length()))
+                if (coltemp == (Key.length()))
                 {
                     row++;
                     coltemp = 0;
                 }
-                pmat[row][coltemp] = plainText.charAt(i);
+                plainTextMat[row][coltemp] = plainText.charAt(i);
             }
             else
-            { // do the padding ...
-                pmat[row][coltemp] = '*';
+            { 
+                plainTextMat[row][coltemp] = '*';
             }
         }
         int len = -1, k;
-        for (i = 1; i <= selectedKey.length(); i++)
+        for (i = 1; i <= Key.length(); i++)
         {
-            for (k = 0; k < selectedKey.length(); k++)
+            for (k = 0; k < Key.length(); k++)
             {
-                if (i == Character.getNumericValue(orginalKey[k]))
+                if (i == Character.getNumericValue(keyArray[k]))
                 {
                     break;
                 }
@@ -55,29 +49,27 @@ public class Transposition {
             for (j = 0; j <= row; j++)
             {
                 len++;
-                encry[len] = pmat[j][k];
+                cipherArray[len] = plainTextMat[j][k];
             }
         }
-        String p1 = new String(encry);
-        return (new String(p1));
+        String cipherText = new String(cipherArray);
+        return cipherText;
     }
  
-    // to decrypt the targeted string
-    public static String doDecryption(String s)
+    public static String decryption(String s)
     {
-        int min, i, j, k;
-        char key[] = selectedKey.toCharArray();
-        char encry[] = s.toCharArray();
-        char temp;
-        // Now generating plain message
-        int row = s.length() / selectedKey.length();
-        char pmat[][] = new char[row][(selectedKey.length())];
-        int tempcnt = -1;
-        for (i = 1; i <= selectedKey.length(); i++)
+        int i, j, k;
+        char keyArray[] = Key.toCharArray();
+        char cipherArray[] = s.toCharArray();
+
+        int row = s.length() / Key.length();
+        char plainTextMat[][] = new char[row][(Key.length())];
+        int tempcnt = -1; 
+        for (i = 1; i <= Key.length(); i++)
         {
-            for (k = 0; k < selectedKey.length(); k++)
+            for (k = 0; k < Key.length(); k++)
             {
-                if (i == Character.getNumericValue(key[k]))
+                if (i == Character.getNumericValue(keyArray[k]))
                 {
                     break;
                 }
@@ -85,24 +77,25 @@ public class Transposition {
             for (j = 0; j < row; j++)
             {
                 tempcnt++;
-                pmat[j][k] = encry[tempcnt];
+                plainTextMat[j][k] = cipherArray[tempcnt];
             }
         }
-        // store matrix character in to a single string
-        char p1[] = new char[row * selectedKey.length()];
+
+        char plainTextArray[] = new char[row * Key.length()];
         k = 0;
         for (i = 0; i < row; i++)
         {
-            for (j = 0; j < selectedKey.length(); j++)
+            for (j = 0; j < Key.length(); j++)
             {
-                if (pmat[i][j] != '*')
+                if (plainTextMat[i][j] != '*')
                 {
-                    p1[k++] = pmat[i][j];
+                    plainTextArray[k++] = plainTextMat[i][j];
                 }
             }
         }
-        p1[k++] = '\0';
-        return (new String(p1));
+        
+        String originalText = new String(plainTextArray);
+        return (originalText);
     }
     
     
