@@ -8,23 +8,24 @@ public class Transposition {
     {
         int i, j;
         String plainText = PlainText;
-        
+        int keyLength = Key.length();
         char keyArray[] = Key.toCharArray();
-        int row = plainText.length() / Key.length();
-        int extrabit = plainText.length() % Key.length();
-        int exrow = (extrabit == 0) ? 0 : 1;
+        int row = plainText.length() / keyLength;
+        int extraChar = plainText.length() % keyLength;
+        int extraRow = (extraChar == 0) ? 0 : 1;
         int coltemp = -1;
-        int totallen = (row + exrow) * Key.length();
-        char plainTextMat[][] = new char[(row + exrow)][(Key.length())];
-        char cipherArray[] = new char[totallen];
+        int totalRows = row + extraRow;
+        int totalElements = totalRows * keyLength;
+        char plainTextMat[][] = new char[totalRows][keyLength];
+        char cipherArray[] = new char[totalElements];
 
         row = 0;
-        for (i = 0; i < totallen; i++)
+        for (i = 0; i < totalElements; i++)
         {
             coltemp++;
             if (i < plainText.length())
             {
-                if (coltemp == (Key.length()))
+                if (coltemp == keyLength)
                 {
                     row++;
                     coltemp = 0;
@@ -33,13 +34,13 @@ public class Transposition {
             }
             else
             { 
-                plainTextMat[row][coltemp] = '*';
+                plainTextMat[row][coltemp] = '#';
             }
         }
         int len = -1, k;
-        for (i = 1; i <= Key.length(); i++)
+        for (i = 1; i <= keyLength; i++)
         {
-            for (k = 0; k < Key.length(); k++)
+            for (k = 0; k < keyLength; k++)
             {
                 if (i == Character.getNumericValue(keyArray[k]))
                 {
@@ -59,15 +60,16 @@ public class Transposition {
     public static String decryption(String s)
     {
         int i, j, k;
+        int keyLength = Key.length();
         char keyArray[] = Key.toCharArray();
         char cipherArray[] = s.toCharArray();
-
-        int row = s.length() / Key.length();
-        char plainTextMat[][] = new char[row][(Key.length())];
+        int row = s.length() / keyLength;
+        int totalElements = row * keyLength;
+        char plainTextMat[][] = new char[row][keyLength];
         int tempcnt = -1; 
-        for (i = 1; i <= Key.length(); i++)
+        for (i = 1; i <= keyLength; i++)
         {
-            for (k = 0; k < Key.length(); k++)
+            for (k = 0; k < keyLength; k++)
             {
                 if (i == Character.getNumericValue(keyArray[k]))
                 {
@@ -81,13 +83,13 @@ public class Transposition {
             }
         }
 
-        char plainTextArray[] = new char[row * Key.length()];
+        char plainTextArray[] = new char[totalElements];
         k = 0;
         for (i = 0; i < row; i++)
         {
-            for (j = 0; j < Key.length(); j++)
+            for (j = 0; j < keyLength; j++)
             {
-                if (plainTextMat[i][j] != '*')
+                if (plainTextMat[i][j] != '#')
                 {
                     plainTextArray[k++] = plainTextMat[i][j];
                 }
