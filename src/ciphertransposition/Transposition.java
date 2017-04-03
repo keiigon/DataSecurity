@@ -6,7 +6,6 @@ public class Transposition {
 
     public static String encryption()
     {
-        int i, j;
         String plainText = PlainText;
         int keyLength = Key.length();
         char keyArray[] = Key.toCharArray();
@@ -20,7 +19,7 @@ public class Transposition {
         char cipherArray[] = new char[totalElements];
 
         row = 0;
-        for (i = 0; i < totalElements; i++)
+        for (int i = 0; i < totalElements; i++)
         {
             coltemp++;
             if (i < plainText.length())
@@ -38,7 +37,7 @@ public class Transposition {
             }
         }
         int len = -1, k;
-        for (i = 1; i <= keyLength; i++)
+        for (int i = 1; i <= keyLength; i++)
         {
             for (k = 0; k < keyLength; k++)
             {
@@ -47,7 +46,7 @@ public class Transposition {
                     break;
                 }
             }
-            for (j = 0; j <= row; j++)
+            for (int j = 0; j <= row; j++)
             {
                 len++;
                 cipherArray[len] = plainTextMat[j][k];
@@ -59,7 +58,7 @@ public class Transposition {
  
     public static String decryption(String s)
     {
-        int i, j, k;
+        
         int keyLength = Key.length();
         char keyArray[] = Key.toCharArray();
         char cipherArray[] = s.toCharArray();
@@ -67,7 +66,9 @@ public class Transposition {
         int totalElements = row * keyLength;
         char plainTextMat[][] = new char[row][keyLength];
         int tempcnt = -1; 
-        for (i = 1; i <= keyLength; i++)
+        int k;
+        
+        for (int i = 1; i <= keyLength; i++)
         {
             for (k = 0; k < keyLength; k++)
             {
@@ -76,7 +77,7 @@ public class Transposition {
                     break;
                 }
             }
-            for (j = 0; j < row; j++)
+            for (int j = 0; j < row; j++)
             {
                 tempcnt++;
                 plainTextMat[j][k] = cipherArray[tempcnt];
@@ -85,9 +86,9 @@ public class Transposition {
 
         char plainTextArray[] = new char[totalElements];
         k = 0;
-        for (i = 0; i < row; i++)
+        for (int i = 0; i < row; i++)
         {
-            for (j = 0; j < keyLength; j++)
+            for (int j = 0; j < keyLength; j++)
             {
                 if (plainTextMat[i][j] != '#')
                 {
