@@ -12,12 +12,12 @@ public class Transposition {
         int row = plainText.length() / keyLength;
         int extraChar = plainText.length() % keyLength;
         int extraRow = (extraChar == 0) ? 0 : 1;
-        int coltemp = -1;
         int totalRows = row + extraRow;
         int totalElements = totalRows * keyLength;
         char plainTextMat[][] = new char[totalRows][keyLength];
         char cipherArray[] = new char[totalElements];
-
+        int coltemp = -1;
+        
         row = 0;
         for (int i = 0; i < totalElements; i++)
         {
